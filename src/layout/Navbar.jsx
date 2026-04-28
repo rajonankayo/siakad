@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/logo.png";
+import TahunAjaran from "../layout/TahunAjaran";
 
 function Navbar({ dark, setDark }) {
   const [openSettings, setOpenSettings] = useState(false);
@@ -45,11 +46,11 @@ function Navbar({ dark, setDark }) {
     }`;
 
   return (
-    <nav className="bg-white dark:bg-gray-900 px-6 py-4 shadow-md">
+    <nav className="bg-blue-700 text-white dark:bg-gray-900 px-6 py-4 shadow-md">
       <div className="flex justify-between items-center max-w-10xl mx-auto">
 
         {/* BRAND */}
-        <h1 className="flex items-center gap-2 text-xl font-bold text-blue-600 dark:text-blue-400">
+        <h1 className="flex items-center gap-2 text-xl font-bold text-white dark:text-blue-400">
           <img src={logo} alt="logo"
             alt="Logo SIAKAD" 
             className="w-8 h-8 object-contain"
@@ -62,15 +63,10 @@ function Navbar({ dark, setDark }) {
         {/* RIGHT SIDE */}
         <div className="flex items-center gap-3">
 
-         {/* Tahun Ajaran (Desktop only) */}
-        <div className="hidden md:flex items-center gap-2">
-          <span className="text-sm font-medium">Tahun Ajaran:</span>
-          <select className="border rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option>2023/2024</option>
-            <option>2024/2025</option>
-            <option>2025/2026</option>
-          </select>
-        </div>
+          {/* Tahun Ajaran (Desktop only) */}
+          <div className="hidden md:flex items-center gap-2">
+            <TahunAjaran />  {/* ⬅️ untuk menggunakan tahun ajaran */}
+          </div>
           
 
           {/* DARK MODE */}
@@ -80,6 +76,28 @@ function Navbar({ dark, setDark }) {
           >
             {dark ? "☀️" : "🌙"}
           </button>
+          
+          {/* USER (Desktop only) */}
+          <div className="hidden md:flex items-center gap-3">
+            {user ? (
+              <>
+                <span className="text-sm font-medium text-white dark:text-gray-200">
+                  {user?.name || user?.nama || user?.username || "User"}
+                </span>
+
+                <button
+                  onClick={handleLogout}
+                  className="px-3 py-1 text-sm bg-red-500 hover:bg-red-600 text-white rounded-md"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <NavLink to="/login" className="text-sm text-white hover:underline">
+                Login
+              </NavLink>
+            )}
+          </div>
 
           {/* HAMBURGER */}
           <button
@@ -118,12 +136,27 @@ function Navbar({ dark, setDark }) {
           >
             {/* Tahun Ajaran (Mobile) */}
             <div className="border-b pb-2 mb-2">
-              <span className="block text-sm mb-1">Tahun Ajaran</span>
-              <select className="w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option>2023/2024</option>
-                <option>2024/2025</option>
-                <option>2025/2026</option>
-              </select>
+              <TahunAjaran />  {/* ⬅️ menggunakan tahun ajaran */}
+            </div>
+
+            {/* MOBILE PENGATURAN */}
+            <div className="border-b pb-2 mb-2">
+              {user ? (
+                <>
+                  <NavLink to="/profile" className={linkClass}>Profile</NavLink>
+                  <NavLink to="/account" className={linkClass}>Account</NavLink>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left text-red-500 px-2 py-1"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <NavLink to="/login" className={linkClass}>
+                  Login
+                </NavLink>
+              )}
             </div>
 
             <NavLink to="/" className={linkClass}>Dashboard</NavLink>
@@ -143,25 +176,7 @@ function Navbar({ dark, setDark }) {
             <NavLink to="/about" className={linkClass}>Informasi Pengembangan Siakad</NavLink>
             <NavLink to="/about" className={linkClass}>Pengaturan User</NavLink>
 
-            {/* MOBILE PENGATURAN */}
-            <div className="border-t pt-2">
-              {user ? (
-                <>
-                  <NavLink to="/profile" className={linkClass}>Profile</NavLink>
-                  <NavLink to="/account" className={linkClass}>Account</NavLink>
-                  <button
-                    onClick={handleLogout}
-                    className="block w-full text-left text-red-500 px-2 py-1"
-                  >
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <NavLink to="/login" className={linkClass}>
-                  Login
-                </NavLink>
-              )}
-            </div>
+            
           </motion.div>
         )}
       </AnimatePresence>
