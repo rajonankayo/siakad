@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import logo from "../assets/logo.png";
 
 function Navbar({ dark, setDark }) {
   const [openSettings, setOpenSettings] = useState(false);
@@ -48,7 +49,11 @@ function Navbar({ dark, setDark }) {
       <div className="flex justify-between items-center max-w-10xl mx-auto">
 
         {/* BRAND */}
-        <h1 className="text-xl font-bold text-blue-600 dark:text-blue-400">
+        <h1 className="flex items-center gap-2 text-xl font-bold text-blue-600 dark:text-blue-400">
+          <img src={logo} alt="logo"
+            alt="Logo SIAKAD" 
+            className="w-8 h-8 object-contain"
+          />
           SIAKAD Adzkia
         </h1>
 
