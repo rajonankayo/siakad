@@ -59,7 +59,7 @@ function Navbar({ dark, setDark }) {
 
          {/* Tahun Ajaran (Desktop only) */}
         <div className="hidden md:flex items-center gap-2">
-          <span className="text-sm font-medium">Tahun:</span>
+          <span className="text-sm font-medium">Tahun Ajaran:</span>
           <select className="border rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option>2023/2024</option>
             <option>2024/2025</option>
