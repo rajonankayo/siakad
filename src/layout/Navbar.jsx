@@ -78,10 +78,26 @@ function Navbar({ dark, setDark }) {
 
           {/* HAMBURGER */}
           <button
-            className="md:hidden text-2xl"
+            className="md:hidden flex flex-col justify-between w-7 h-6 group"
             onClick={() => setOpenMobile(!openMobile)}
           >
-            ☰
+            {/* Line 1 */}
+            <span
+              className={`h-1 w-full bg-black dark:bg-white rounded transition-all duration-300 origin-left
+              ${openMobile ? "rotate-45 translate-y" : ""}`}
+            ></span>
+
+            {/* Line 2 */}
+            <span
+              className={`h-1 w-full bg-black dark:bg-white rounded transition-all duration-300
+              ${openMobile ? "opacity-0" : "opacity-100"}`}
+            ></span>
+
+            {/* Line 3 */}
+            <span
+              className={`h-1 w-full bg-black dark:bg-white rounded transition-all duration-300 origin-left
+              ${openMobile ? "-rotate-45 -translate-y" : ""}`}
+            ></span>
           </button>
         </div>
       </div>
