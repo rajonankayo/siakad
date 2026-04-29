@@ -41,8 +41,8 @@ function Navbar({ dark, setDark }) {
   const linkClass = ({ isActive }) =>
     `block px-2 py-1 rounded-md ${
       isActive
-        ? "text-blue-600 dark:text-blue-400 font-semibold"
-        : "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+        ? "text-white dark:text-blue-700 font-semibold"
+        : "text-gray-700 dark:text-gray-300 hover:text-white dark:hover:text-blue-700"
     }`;
 
   return (
@@ -106,19 +106,19 @@ function Navbar({ dark, setDark }) {
           >
             {/* Line 1 */}
             <span
-              className={`h-1 w-full bg-black dark:bg-white rounded transition-all duration-300 origin-left
+              className={`h-1 w-full bg-white dark:bg-white rounded transition-all duration-300 origin-left
               ${openMobile ? "rotate-45 translate-y" : ""}`}
             ></span>
 
             {/* Line 2 */}
             <span
-              className={`h-1 w-full bg-black dark:bg-white rounded transition-all duration-300
+              className={`h-1 w-full bg-white dark:bg-white rounded transition-all duration-300
               ${openMobile ? "opacity-0" : "opacity-100"}`}
             ></span>
 
             {/* Line 3 */}
             <span
-              className={`h-1 w-full bg-black dark:bg-white rounded transition-all duration-300 origin-left
+              className={`h-1 w-full bg-white dark:bg-white rounded transition-all duration-300 origin-left
               ${openMobile ? "-rotate-45 -translate-y" : ""}`}
             ></span>
           </button>

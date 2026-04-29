@@ -23,7 +23,7 @@ function Login() {
     setError("");
 
     try {
-      const res = await fetch("https://siakad.adzkiasumbar.or.id/api/blog/login.php", {
+      const res = await fetch("https://siakad.adzkiasumbar.or.id/api/login/login.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
