@@ -1,28 +1,56 @@
 import { FaGithub, FaInstagram, FaTwitter, FaEnvelope } from "react-icons/fa";
+import { useState, useEffect } from "react";
 
 export default function Footer() {
+  const [session, setSession] = useState(() => {
+    const stored = localStorage.getItem("session");
+    return stored ? JSON.parse(stored) : null;
+  });
+
+  const role = localStorage.getItem("activeRole") || session?.role;
+
+  useEffect(() => {
+    const loadSession = () => {
+      const stored = localStorage.getItem("session");
+      setSession(stored ? JSON.parse(stored) : null);
+    };
+
+    loadSession();
+
+    window.addEventListener("storage", loadSession);
+    window.addEventListener("user-login", loadSession);
+    window.addEventListener("user-logout", loadSession);
+
+    const interval = setInterval(loadSession, 500);
+
+    return () => {
+      window.removeEventListener("storage", loadSession);
+      window.removeEventListener("user-login", loadSession);
+      window.removeEventListener("user-logout", loadSession);
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
-    <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-20 transition-colors duration-500">
+    <>
+      {session && (
+        <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 m-0 transition-colors duration-500">
+          <div className="max-w-6xl mx-auto px-6 py-12 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {/* BRAND */}
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                Asriadi Kreatif
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400 mt-3 leading-relaxed">
+                Web developer yang fokus membangun website modern, cepat, dan
+                responsif dengan teknologi React & Tailwind CSS.
+              </p>
+            </div>
 
-      <div className="max-w-6xl mx-auto px-6 py-12 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div></div>
 
-        {/* BRAND */}
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Asriadi Kreatif
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 mt-3 leading-relaxed">
-            Web developer yang fokus membangun website modern, cepat, dan
-            responsif dengan teknologi React & Tailwind CSS.
-          </p>
-        </div>
-
-        <div>
-
-        </div>
-
-        {/* QUICK LINKS */}
-        {/* <div>
+            {/* QUICK LINKS */}
+            {/* <div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
             Navigasi
           </h3>
@@ -36,49 +64,48 @@ export default function Footer() {
           </ul>
         </div> */}
 
-        {/* SOCIAL */}
-        <div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-            Connect
-          </h3>
+            {/* SOCIAL */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                Connect
+              </h3>
 
-          <div className="flex gap-4 text-xl text-gray-600 dark:text-gray-400">
-            <a href="#" className="hover:text-blue-500 transition">
-              <FaGithub />
-            </a>
-            <a href="#" className="hover:text-pink-500 transition">
-              <FaInstagram />
-            </a>
-            <a href="#" className="hover:text-sky-500 transition">
-              <FaTwitter />
-            </a>
-            <a href="#" className="hover:text-red-500 transition">
-              <FaEnvelope />
-            </a>
+              <div className="flex gap-4 text-xl text-gray-600 dark:text-gray-400">
+                <a href="#" className="hover:text-blue-500 transition">
+                  <FaGithub />
+                </a>
+                <a href="#" className="hover:text-pink-500 transition">
+                  <FaInstagram />
+                </a>
+                <a href="#" className="hover:text-sky-500 transition">
+                  <FaTwitter />
+                </a>
+                <a href="#" className="hover:text-red-500 transition">
+                  <FaEnvelope />
+                </a>
+              </div>
+
+              <p className="text-gray-500 dark:text-gray-500 mt-4 text-sm">
+                Open for freelance project & collaboration
+              </p>
+            </div>
           </div>
 
-          <p className="text-gray-500 dark:text-gray-500 mt-4 text-sm">
-            Open for freelance project & collaboration
-          </p>
-        </div>
+          {/* BOTTOM BAR */}
+          <div className="border-t border-gray-200 dark:border-gray-800">
+            <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 dark:text-gray-400">
+              <p>
+                © {new Date().getFullYear()} Asriadi Kreatif. All rights
+                reserved.
+              </p>
 
-      </div>
-
-      {/* BOTTOM BAR */}
-      <div className="border-t border-gray-200 dark:border-gray-800">
-        <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 dark:text-gray-400">
-
-          <p>
-            © {new Date().getFullYear()} Asriadi Kreatif. All rights reserved.
-          </p>
-
-          <p className="mt-2 md:mt-0">
-            Built with ❤️ using React & Tailwind
-          </p>
-
-        </div>
-      </div>
-
-    </footer>
+              <p className="mt-2 md:mt-0">
+                Built with ❤️ using React & Tailwind
+              </p>
+            </div>
+          </div>
+        </footer>
+      )}
+    </>
   );
 }

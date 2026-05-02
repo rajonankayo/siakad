@@ -11,7 +11,7 @@ import DetailBlog from "./../komponen/DetailBlog";
 // 🔥 FETCH (pagination + search)
 const fetchBlogs = async (page, search, sort) => {
   const res = await fetch(
-    `https://siakad.adzkiasumbar.or.id/api/blog/read.php?page=${page}&limit=3&search=${encodeURIComponent(search)}&sort=${sort}`
+    `https://siakad.adzkiasumbar.or.id/api/blog/read.php?page=${page}&limit=3&search=${encodeURIComponent(search)}&sort=${sort}`,
   );
 
   if (!res.ok) throw new Error("Failed fetch blogs");
@@ -35,20 +35,24 @@ function BlogSkeleton({ index = 0 }) {
       "
     >
       {/* TITLE */}
-      <div className="
+      <div
+        className="
         h-5 w-3/4 rounded
         bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200
         dark:from-gray-700 dark:via-gray-600 dark:to-gray-700
         bg-[length:200%_100%] animate-shimmer
-      " />
+      "
+      />
 
       {/* META */}
-      <div className="
+      <div
+        className="
         h-3 w-1/2 rounded
         bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200
         dark:from-gray-700 dark:via-gray-600 dark:to-gray-700
         bg-[length:200%_100%] animate-shimmer
-      " />
+      "
+      />
 
       {/* CONTENT */}
       <div className="space-y-2">
@@ -87,7 +91,7 @@ export default function BlogList({ onEdit }) {
   const [sort, setSort] = useState("desc"); // Fitur sort
 
   const [user, setUser] = useState(null);
-  
+
   // 🔥 FETCH USER
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -149,57 +153,56 @@ export default function BlogList({ onEdit }) {
 
   // 🔥 DELETE
   const handleDelete = async (id_blog) => {
-  const result = await Swal.fire({
-    title: "Hapus Blog?",
-    text: "Data yang dihapus tidak bisa dikembalikan!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#d33",
-    cancelButtonColor: "#3085d6",
-    confirmButtonText: "Ya, hapus!",
-    cancelButtonText: "Batal",
-  });
-
-  if (!result.isConfirmed) return;
-
-  try {
-    const res = await fetch(
-      `https://siakad.adzkiasumbar.or.id/api/blog/delete.php?id_blog=${id_blog}`,
-      {
-        method: "DELETE",
-      }
-    );
-
-    const text = await res.text();
-    let resultData;
-
-    try {
-      resultData = JSON.parse(text);
-    } catch {
-      resultData = {};
-    }
-
-    if (!res.ok || resultData?.message?.toLowerCase().includes("gagal")) {
-      Swal.fire({
-        icon: "error",
-        title: "Gagal",
-        text: resultData?.message || "Gagal menghapus blog",
-        timer: 1200,
-        showConfirmButton: false,
-      });
-      return;
-    }
-
-    Swal.fire({
-      icon: "success",
-      title: "Berhasil",
-      text: "Blog berhasil dihapus",
-      timer: 1000,
-      showConfirmButton: false,
+    const result = await Swal.fire({
+      title: "Hapus Blog?",
+      text: "Data yang dihapus tidak bisa dikembalikan!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Ya, hapus!",
+      cancelButtonText: "Batal",
     });
 
-    queryClient.invalidateQueries({ queryKey: ["blogs"] });
+    if (!result.isConfirmed) return;
 
+    try {
+      const res = await fetch(
+        `https://siakad.adzkiasumbar.or.id/api/blog/delete.php?id_blog=${id_blog}`,
+        {
+          method: "DELETE",
+        },
+      );
+
+      const text = await res.text();
+      let resultData;
+
+      try {
+        resultData = JSON.parse(text);
+      } catch {
+        resultData = {};
+      }
+
+      if (!res.ok || resultData?.message?.toLowerCase().includes("gagal")) {
+        Swal.fire({
+          icon: "error",
+          title: "Gagal",
+          text: resultData?.message || "Gagal menghapus blog",
+          timer: 1200,
+          showConfirmButton: false,
+        });
+        return;
+      }
+
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil",
+        text: "Blog berhasil dihapus",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+
+      queryClient.invalidateQueries({ queryKey: ["blogs"] });
     } catch (err) {
       console.error("Delete error:", err);
 
@@ -267,13 +270,12 @@ export default function BlogList({ onEdit }) {
         </span>
       ) : (
         part
-      )
+      ),
     );
   };
 
   return (
     <div className="space-y-4">
-
       {/* 🔍 SEARCH */}
       <input
         ref={searchRef}
@@ -336,7 +338,9 @@ export default function BlogList({ onEdit }) {
             : "Belum ada data blog"}
         </p>
       ) : (
-        <div className={`grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 space-y-4 $isFetching ? "opacity-70 blur-[1px]" : ""}`}>
+        <div
+          className={`grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 space-y-4 $isFetching ? "opacity-70 blur-[1px]" : ""}`}
+        >
           {blogs.map((blog, i) => (
             <motion.div
               key={blog.id_blog}
@@ -378,7 +382,7 @@ export default function BlogList({ onEdit }) {
               <p className="mt-3 text-sm text-gray-700 dark:text-gray-300 line-clamp-3">
                 {highlightText(
                   (blog.konten_blog || "").slice(0, 150),
-                  debouncedSearch
+                  debouncedSearch,
                 )}
                 ...
               </p>
@@ -419,7 +423,6 @@ export default function BlogList({ onEdit }) {
       {/* 🔢 PAGINATION */}
       {totalPages > 1 && (
         <div className="flex justify-center gap-2 pt-6 flex-wrap">
-
           <button
             onClick={goFirst}
             disabled={currentPage === 1 || isFetching}
@@ -438,7 +441,9 @@ export default function BlogList({ onEdit }) {
 
           {getPageNumbers().map((page, i) =>
             page === "..." ? (
-              <span key={i} className="px-2 text-gray-500">...</span>
+              <span key={i} className="px-2 text-gray-500">
+                ...
+              </span>
             ) : (
               <button
                 key={page}
@@ -452,7 +457,7 @@ export default function BlogList({ onEdit }) {
               >
                 {page}
               </button>
-            )
+            ),
           )}
 
           <button
@@ -470,7 +475,6 @@ export default function BlogList({ onEdit }) {
           >
             ⏭
           </button>
-
         </div>
       )}
 
@@ -480,7 +484,6 @@ export default function BlogList({ onEdit }) {
           <DetailBlog blog={selectedDetail} />
         </Modal>
       )}
-
     </div>
   );
 }

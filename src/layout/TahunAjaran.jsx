@@ -50,7 +50,7 @@ export default function TahunAjaran() {
       <select
         value={tahunAjaran}
         onChange={handleChange}
-        className="border rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="border rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-700 text-white dark:bg-gray-700 dark:text-white"
       >
         {generateOptions().map((t) => (
           <option key={t} value={t}>
